@@ -1,0 +1,44 @@
+name: CI/CD - Automated Code Review (Bai 7)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+# CẤP QUYỀN: Bắt buộc phải có đoạn này để Bot được phép viết Comment vào GitHub của bạn
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest # Chạy 1 hệ điều hành thôi cho Bot đỡ spam
+
+    steps:
+      - name: Checkout ma nguon
+        uses: actions/checkout@v4
+
+      - name: Cai dat Java 17 va kich hoat Caching
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      # Lệnh gọi Checkstyle quét code
+      - name: Kiem tra Code Format (Checkstyle)
+        run: mvn checkstyle:checkstyle
+        continue-on-error: true # Bắt buộc có để CI không bị dừng ngang
+
+      # TRIỆU HỒI BOT VÀO BÌNH LUẬN TRONG PULL REQUEST
+      - name: Bot tu dong binh luan loi vao Pull Request
+        uses: dbelyaev/action-checkstyle@master
+        if: github.event_name == 'pull_request'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          level: warning
+
+      - name: Kiem tra Unit Test va Build
+        run: mvn clean verify
