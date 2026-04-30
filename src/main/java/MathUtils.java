@@ -28,5 +28,9 @@ public class MathUtils {
         logger.info("Kết quả giai thừa của {} là: {}", n, product);
         return product;
     }
+    // Code cố tình viết sai quy tắc: Tên hàm viết hoa, thiếu dấu cách ngoặc
+    public int truDiem(int a,int b){
+        return a - b;
+    }
     // Ép Git push lần 2 để test tốc độ caching
 }
