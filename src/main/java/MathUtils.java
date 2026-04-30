@@ -28,8 +28,5 @@ public class MathUtils {
         logger.info("Kết quả giai thừa của {} là: {}", n, product);
         return product;
     }
-    public int TruDiem(int a,int b){
-return a-b;
-    }
     // Ép Git push lần 2 để test tốc độ caching
 }
