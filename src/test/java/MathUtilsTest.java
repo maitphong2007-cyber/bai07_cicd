@@ -51,6 +51,6 @@ public class MathUtilsTest {
     @Test
     void testTruDiem() {
         MathUtils math = new MathUtils();
-        assertEquals(5, math.TruDiem(10, 5));
+        assertEquals(5, math.truDiem(10, 5));
     }
 }
